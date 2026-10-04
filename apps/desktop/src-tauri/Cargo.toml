@@ -1,0 +1,20 @@
+[package]
+name = "stagecue-desktop"
+version = "0.1.0"
+description = "StageCue desktop shell"
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+stagecue-audio-engine = { path = "../../../crates/audio-engine" }
+stagecue-project-model = { path = "../../../crates/project-model" }
+stagecue-project-store = { path = "../../../crates/project-store" }
+stagecue-timing-engine = { path = "../../../crates/timing-engine" }
+tauri = { version = "2", features = [] }
+

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "standard-rock-4-4",
+  "name": "Standard Rock Song 4/4",
+  "defaultTempo": 120.0,
+  "meter": { "position": { "bar": 1, "beat": 1, "tick": 0 }, "numerator": 4, "denominator": 4 },
+  "countInBars": 2,
+  "sections": [
+    { "name": "Intro", "lengthBars": 4, "color": "#64748b", "major": false },
+    { "name": "Verse 1", "lengthBars": 8, "color": "#2563eb", "major": true },
+    { "name": "Chorus 1", "lengthBars": 8, "color": "#dc2626", "major": true },
+    { "name": "Verse 2", "lengthBars": 8, "color": "#2563eb", "major": true },
+    { "name": "Chorus 2", "lengthBars": 8, "color": "#dc2626", "major": true },
+    { "name": "Bridge", "lengthBars": 8, "color": "#7c3aed", "major": true },
+    { "name": "Final Chorus", "lengthBars": 8, "color": "#e11d48", "major": true },
+    { "name": "Outro", "lengthBars": 4, "color": "#475569", "major": true }
+  ],
+  "cueLeadBars": 2,
+  "click": { "enabled": true, "gainDb": -6.0, "subdivision": "quarter", "accentedAssetId": null, "unaccentedAssetId": null, "patterns": [{ "numerator": 4, "denominator": 4, "steps": [{ "beat": 1.0, "accent": true }, { "beat": 2.0, "accent": false }, { "beat": 3.0, "accent": false }, { "beat": 4.0, "accent": false }] }], "enabledSectionIds": [], "muteInFreeTime": true },
+  "routingSuggestions": [
+    { "id": "backing-bus", "name": "Backing", "channelCount": 2, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [1, 2] },
+    { "id": "click-bus", "name": "Click", "channelCount": 1, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [3] },
+    { "id": "cue-bus", "name": "Cues", "channelCount": 1, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [4] }
+  ],
+  "preflightRequirements": ["backing-present", "cue-audio-rendered", "routing-confirmed"]
+}

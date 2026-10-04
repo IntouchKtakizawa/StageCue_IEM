@@ -1,0 +1,12 @@
+{
+  "name": "stagecue",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["apps/desktop", "packages/*"],
+  "scripts": {
+    "dev": "npm --workspace @stagecue/desktop run dev",
+    "build": "npm --workspace @stagecue/desktop run build",
+    "test": "npm --workspace @stagecue/desktop run test",
+    "tauri": "npm --workspace @stagecue/desktop run tauri"
+  }
+}

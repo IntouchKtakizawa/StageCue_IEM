@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "standard-rock-demo",
+  "title": "Standard Rock Demo",
+  "artist": "StageCue",
+  "notes": "Stage 1 fixture; audio files are placeholders.",
+  "audioAssets": [
+    { "id": "backing", "name": "Backing", "path": "audio/backing.wav", "role": "backing", "channels": 2, "sampleRate": 48000, "offsetSamples": 0, "gainDb": 0.0, "muted": false },
+    { "id": "cue-chorus", "name": "Chorus cue", "path": "audio/cue-chorus.wav", "role": "cue", "channels": 1, "sampleRate": 48000, "offsetSamples": 0, "gainDb": 0.0, "muted": false }
+  ],
+  "tempoMap": [
+    { "position": { "bar": 1, "beat": 1, "tick": 0 }, "bpm": 120.0, "transition": "instant" }
+  ],
+  "meterMap": [
+    { "position": { "bar": 1, "beat": 1, "tick": 0 }, "numerator": 4, "denominator": 4 }
+  ],
+  "freeTimeRegions": [],
+  "sections": [
+    { "id": "intro", "name": "Intro", "start": { "bar": 1, "beat": 1, "tick": 0 }, "lengthBars": 4, "color": "#64748b", "notes": null },
+    { "id": "verse-1", "name": "Verse 1", "start": { "bar": 5, "beat": 1, "tick": 0 }, "lengthBars": 8, "color": "#2563eb", "notes": null },
+    { "id": "chorus-1", "name": "Chorus 1", "start": { "bar": 13, "beat": 1, "tick": 0 }, "lengthBars": 8, "color": "#dc2626", "notes": null }
+  ],
+  "events": [
+    { "type": "voice-cue", "id": "cue-1", "timing": { "kind": "bars-before-section", "sectionId": "chorus-1", "bars": 2 }, "text": "Chorus, two bars", "renderedAudioAssetId": "cue-chorus", "destinationBusId": "cue-bus", "gainDb": 0.0, "interruptPolicy": "mix", "pronunciationOverrides": {} }
+  ],
+  "click": {
+    "enabled": true,
+    "gainDb": -6.0,
+    "subdivision": "quarter",
+    "accentedAssetId": null,
+    "unaccentedAssetId": null,
+    "patterns": [{ "numerator": 4, "denominator": 4, "steps": [{ "beat": 1.0, "accent": true }, { "beat": 2.0, "accent": false }, { "beat": 3.0, "accent": false }, { "beat": 4.0, "accent": false }] }],
+    "enabledSectionIds": [],
+    "muteInFreeTime": true
+  },
+  "buses": [
+    { "id": "backing-bus", "name": "Backing", "channelCount": 2, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [1, 2] },
+    { "id": "click-bus", "name": "Click", "channelCount": 1, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [3] },
+    { "id": "cue-bus", "name": "Cues", "channelCount": 1, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [4] }
+  ],
+  "routing": [
+    { "sourceId": "backing", "destinationBusId": "backing-bus" },
+    { "sourceId": "cue-chorus", "destinationBusId": "cue-bus" }
+  ],
+  "performance": { "safetyFadeMs": 20, "autoAdvanceSetlist": false, "stopConfirmation": true, "beginnerMode": true }
+}
+
