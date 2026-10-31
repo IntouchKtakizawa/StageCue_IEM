@@ -3,7 +3,23 @@
   "productName": "StageCue",
   "version": "0.1.0",
   "identifier": "app.stagecue.desktop",
-  "build": { "beforeDevCommand": "npm run dev", "devUrl": "http://localhost:1420", "beforeBuildCommand": "npm run build", "frontendDist": "../dist" },
-  "app": { "windows": [{ "title": "StageCue", "width": 1440, "height": 900, "minWidth": 960, "minHeight": 650 }], "security": { "csp": null } },
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "StageCue",
+        "width": 1440,
+        "height": 900,
+        "minWidth": 960,
+        "minHeight": 650
+      }
+    ],
+    "security": { "csp": null }
+  },
   "bundle": { "active": true, "targets": "all" }
 }

@@ -17,10 +17,19 @@ interface State {
   stop(): void;
   panic(): void;
   renameSection(id: string, name: string): void;
-  updateSong(details: Partial<Pick<SongProject, "title" | "artist" | "spotifyUrl" | "lyrics" | "notes">>): void;
+  updateSong(
+    details: Partial<
+      Pick<SongProject, "title" | "artist" | "spotifyUrl" | "lyrics" | "notes">
+    >,
+  ): void;
   setTempo(bpm: number): void;
   replaceSections(sections: SongSection[]): void;
-  updateSection(id: string, changes: Partial<Pick<SongSection, "name" | "lengthBars" | "color" | "notes">>): void;
+  updateSection(
+    id: string,
+    changes: Partial<
+      Pick<SongSection, "name" | "lengthBars" | "color" | "notes">
+    >,
+  ): void;
   resizeSection(id: string, bars: number): void;
   addSection(): void;
   setBackingFile(fileName: string): void;
@@ -135,13 +144,27 @@ export const useStageCue = create<State>((set) => ({
         if (section) section.name = name;
       }),
     ),
-  updateSong: (details) => set((s) => mutation(s, (p) => Object.assign(p, details))),
-  setTempo: (bpm) => set((s) => mutation(s, (p) => { p.tempoMap[0].bpm = Math.min(300, Math.max(20, bpm)); })),
-  replaceSections: (sections) => set((s) => mutation(s, (p) => { p.sections = sections; })),
-  updateSection: (id, changes) => set((s) => mutation(s, (p) => {
-    const section = p.sections.find((v) => v.id === id);
-    if (section) Object.assign(section, changes);
-  })),
+  updateSong: (details) =>
+    set((s) => mutation(s, (p) => Object.assign(p, details))),
+  setTempo: (bpm) =>
+    set((s) =>
+      mutation(s, (p) => {
+        p.tempoMap[0].bpm = Math.min(300, Math.max(20, bpm));
+      }),
+    ),
+  replaceSections: (sections) =>
+    set((s) =>
+      mutation(s, (p) => {
+        p.sections = sections;
+      }),
+    ),
+  updateSection: (id, changes) =>
+    set((s) =>
+      mutation(s, (p) => {
+        const section = p.sections.find((v) => v.id === id);
+        if (section) Object.assign(section, changes);
+      }),
+    ),
   resizeSection: (id, bars) =>
     set((s) =>
       mutation(s, (p) => {

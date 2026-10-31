@@ -50,21 +50,41 @@ const clockText = (seconds: number) =>
     .padStart(2, "0")}`;
 
 const sectionColors: Record<string, string> = {
-  intro: "#64748b", verse: "#2563eb", chorus: "#e11d48", prechorus: "#d97706",
-  bridge: "#7c3aed", breakdown: "#0891b2", solo: "#16a34a", outro: "#475569",
+  intro: "#64748b",
+  verse: "#2563eb",
+  chorus: "#e11d48",
+  prechorus: "#d97706",
+  bridge: "#7c3aed",
+  breakdown: "#0891b2",
+  solo: "#16a34a",
+  outro: "#475569",
 };
 const analyzeLyrics = (lyrics: string): SongSection[] => {
-  const blocks = lyrics.trim().split(/\n\s*\n/).map((block) => block.trim()).filter(Boolean);
+  const blocks = lyrics
+    .trim()
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter(Boolean);
   if (!blocks.length) return [];
   const counts = new Map<string, number>();
-  const normalized = blocks.map((block) => block.replace(/^\s*\[.*?\]\s*/i, "").toLowerCase().replace(/\W/g, ""));
+  const normalized = blocks.map((block) =>
+    block
+      .replace(/^\s*\[.*?\]\s*/i, "")
+      .toLowerCase()
+      .replace(/\W/g, ""),
+  );
   normalized.forEach((key) => counts.set(key, (counts.get(key) ?? 0) + 1));
   const occurrence = new Map<string, number>();
   let bar = 1;
   let verse = 0;
   return blocks.map((block, index) => {
-    const heading = block.match(/^\s*\[([^\]]+)\]|^\s*(intro|verse(?:\s+\d+)?|pre-?chorus|chorus(?:\s+\d+)?|bridge|breakdown|solo|outro)\s*:?\s*$/im)?.[1] ??
-      block.match(/^\s*(intro|verse(?:\s+\d+)?|pre-?chorus|chorus(?:\s+\d+)?|bridge|breakdown|solo|outro)\s*:?\s*$/im)?.[1];
+    const heading =
+      block.match(
+        /^\s*\[([^\]]+)\]|^\s*(intro|verse(?:\s+\d+)?|pre-?chorus|chorus(?:\s+\d+)?|bridge|breakdown|solo|outro)\s*:?\s*$/im,
+      )?.[1] ??
+      block.match(
+        /^\s*(intro|verse(?:\s+\d+)?|pre-?chorus|chorus(?:\s+\d+)?|bridge|breakdown|solo|outro)\s*:?\s*$/im,
+      )?.[1];
     let base = heading?.trim();
     if (!base) {
       if ((counts.get(normalized[index]) ?? 0) > 1) base = "Chorus";
@@ -75,10 +95,18 @@ const analyzeLyrics = (lyrics: string): SongSection[] => {
     const number = (occurrence.get(base) ?? 0) + 1;
     occurrence.set(base, number);
     const name = number > 1 && !/\d/.test(base) ? `${base} ${number}` : base;
-    const lines = block.split("\n").filter((line) => !/^\s*\[.*\]\s*$/.test(line)).length;
+    const lines = block
+      .split("\n")
+      .filter((line) => !/^\s*\[.*\]\s*$/.test(line)).length;
     const lengthBars = Math.max(4, Math.ceil(lines / 4) * 4);
-    const section = { id: crypto.randomUUID(), name, start: { bar, beat: 1, tick: 0 }, lengthBars,
-      color: sectionColors[key] ?? "#2563eb", notes: block };
+    const section = {
+      id: crypto.randomUUID(),
+      name,
+      start: { bar, beat: 1, tick: 0 },
+      lengthBars,
+      color: sectionColors[key] ?? "#2563eb",
+      notes: block,
+    };
     bar += lengthBars;
     return section;
   });
@@ -130,7 +158,12 @@ export function App() {
       )}
       {page !== "performance" && (
         <nav className="tabs" aria-label="Workspace">
-          <button className={page === "song" ? "active" : ""} onClick={() => setPage("song")}>Song setup</button>
+          <button
+            className={page === "song" ? "active" : ""}
+            onClick={() => setPage("song")}
+          >
+            Song setup
+          </button>
           <button
             className={page === "editor" ? "active" : ""}
             onClick={() => setPage("editor")}
@@ -165,42 +198,214 @@ export function App() {
 }
 
 function SongSetup() {
-  const { project, updateSong, setTempo, replaceSections, setPage } = useStageCue();
+  const { project, updateSong, setTempo, replaceSections, setPage } =
+    useStageCue();
   const [draftLyrics, setDraftLyrics] = useState(project.lyrics ?? "");
   const [suggestions, setSuggestions] = useState<SongSection[]>([]);
-  const spotifyOk = !project.spotifyUrl || /^https:\/\/open\.spotify\.com\/track\/[A-Za-z0-9]+/.test(project.spotifyUrl);
+  const spotifyOk =
+    !project.spotifyUrl ||
+    /^https:\/\/open\.spotify\.com\/track\/[A-Za-z0-9]+/.test(
+      project.spotifyUrl,
+    );
   const analyze = () => {
     updateSong({ lyrics: draftLyrics });
     setSuggestions(analyzeLyrics(draftLyrics));
   };
-  return <section className="song-setup">
-    <div className="page-title"><div><span className="eyebrow">PROJECT FOUNDATION</span><h1>Build the song map</h1><p>Add the real song details, then turn your pasted lyrics into an editable live arrangement.</p></div><span className="status-chip">LOCAL · PRIVATE</span></div>
-    <div className="setup-grid">
-      <article className="panel song-details"><header><div><span className="step">01</span><h2>Song details</h2></div><small>Saved inside the .stagecue file</small></header>
-        <div className="form-grid">
-          <label>Song title<input value={project.title} onChange={(e) => updateSong({title:e.target.value})}/></label>
-          <label>Artist<input value={project.artist ?? ""} onChange={(e) => updateSong({artist:e.target.value})} placeholder="Artist / band"/></label>
-          <label>Tempo (BPM)<input type="number" min="20" max="300" value={project.tempoMap[0].bpm} onChange={(e) => setTempo(+e.target.value)}/></label>
-          <label>Time signature<input value="4 / 4" disabled title="Variable meter editing is coming next"/></label>
+  return (
+    <section className="song-setup">
+      <div className="page-title">
+        <div>
+          <span className="eyebrow">PROJECT FOUNDATION</span>
+          <h1>Build the song map</h1>
+          <p>
+            Add the real song details, then turn your pasted lyrics into an
+            editable live arrangement.
+          </p>
         </div>
-        <label>Band notes<textarea value={project.notes} onChange={(e) => updateSong({notes:e.target.value})} placeholder="Key, tuning, count-in, stage notes…"/></label>
-      </article>
-      <article className="panel spotify-card"><header><div><span className="step">02</span><h2>Spotify reference</h2></div><span className="spotify-dot">●</span></header>
-        <p>Link the official track for reference. StageCue opens it in Spotify; it does not copy or stream Spotify audio.</p>
-        <label>Spotify track URL<input className={!spotifyOk ? "invalid" : ""} value={project.spotifyUrl ?? ""} onChange={(e) => updateSong({spotifyUrl:e.target.value})} placeholder="https://open.spotify.com/track/…"/></label>
-        {!spotifyOk && <small className="error">Use a Spotify track link, not a playlist or search page.</small>}
-        <div className="button-row"><a className={`button ${!spotifyOk || !project.spotifyUrl ? "disabled" : ""}`} href={spotifyOk ? project.spotifyUrl : undefined} target="_blank" rel="noreferrer">Open in Spotify ↗</a><span>Reference only</span></div>
-      </article>
-      <article className="panel lyrics-card"><header><div><span className="step">03</span><h2>Lyrics → arrangement</h2></div><span className="ai-chip">AI ASSIST</span></header>
-        <p>Paste lyrics you have permission to use. Headings like <code>[Chorus]</code> are respected; repeated blocks are detected as choruses.</p>
-        <textarea className="lyrics-input" value={draftLyrics} onChange={(e) => setDraftLyrics(e.target.value)} placeholder={'[Verse 1]\nFirst line…\n\n[Chorus]\nRepeated hook…'}/>
-        <div className="button-row"><button className="primary" onClick={analyze} disabled={!draftLyrics.trim()}>Analyze & name sections</button><small>{draftLyrics.trim() ? `${draftLyrics.trim().split(/\s+/).length} words` : "Nothing leaves this Mac"}</small></div>
-      </article>
-      <article className="panel analysis-card"><header><div><span className="step">04</span><h2>Review the structure</h2></div><small>{suggestions.length ? `${suggestions.length} sections found` : "Waiting for lyrics"}</small></header>
-        {suggestions.length ? <><div className="suggestions">{suggestions.map((section) => <div key={section.id}><i style={{background:section.color}}/><input value={section.name} onChange={(e) => setSuggestions(suggestions.map((s) => s.id === section.id ? {...s,name:e.target.value}:s))}/><span>{section.lengthBars} bars</span></div>)}</div><div className="button-row"><button className="primary" onClick={() => {replaceSections(suggestions);setPage("editor");}}>Apply to timeline</button><button onClick={() => setSuggestions([])}>Clear</button></div></> : <div className="empty-state"><b>Your proposed set map appears here.</b><span>You can rename every section before anything changes.</span></div>}
-      </article>
-    </div>
-  </section>;
+        <span className="status-chip">LOCAL · PRIVATE</span>
+      </div>
+      <div className="setup-grid">
+        <article className="panel song-details">
+          <header>
+            <div>
+              <span className="step">01</span>
+              <h2>Song details</h2>
+            </div>
+            <small>Saved inside the .stagecue file</small>
+          </header>
+          <div className="form-grid">
+            <label>
+              Song title
+              <input
+                value={project.title}
+                onChange={(e) => updateSong({ title: e.target.value })}
+              />
+            </label>
+            <label>
+              Artist
+              <input
+                value={project.artist ?? ""}
+                onChange={(e) => updateSong({ artist: e.target.value })}
+                placeholder="Artist / band"
+              />
+            </label>
+            <label>
+              Tempo (BPM)
+              <input
+                type="number"
+                min="20"
+                max="300"
+                value={project.tempoMap[0].bpm}
+                onChange={(e) => setTempo(+e.target.value)}
+              />
+            </label>
+            <label>
+              Time signature
+              <input
+                value="4 / 4"
+                disabled
+                title="Variable meter editing is coming next"
+              />
+            </label>
+          </div>
+          <label>
+            Band notes
+            <textarea
+              value={project.notes}
+              onChange={(e) => updateSong({ notes: e.target.value })}
+              placeholder="Key, tuning, count-in, stage notes…"
+            />
+          </label>
+        </article>
+        <article className="panel spotify-card">
+          <header>
+            <div>
+              <span className="step">02</span>
+              <h2>Spotify reference</h2>
+            </div>
+            <span className="spotify-dot">●</span>
+          </header>
+          <p>
+            Link the official track for reference. StageCue opens it in Spotify;
+            it does not copy or stream Spotify audio.
+          </p>
+          <label>
+            Spotify track URL
+            <input
+              className={!spotifyOk ? "invalid" : ""}
+              value={project.spotifyUrl ?? ""}
+              onChange={(e) => updateSong({ spotifyUrl: e.target.value })}
+              placeholder="https://open.spotify.com/track/…"
+            />
+          </label>
+          {!spotifyOk && (
+            <small className="error">
+              Use a Spotify track link, not a playlist or search page.
+            </small>
+          )}
+          <div className="button-row">
+            <a
+              className={`button ${!spotifyOk || !project.spotifyUrl ? "disabled" : ""}`}
+              href={spotifyOk ? project.spotifyUrl : undefined}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open in Spotify ↗
+            </a>
+            <span>Reference only</span>
+          </div>
+        </article>
+        <article className="panel lyrics-card">
+          <header>
+            <div>
+              <span className="step">03</span>
+              <h2>Lyrics → arrangement</h2>
+            </div>
+            <span className="ai-chip">AI ASSIST</span>
+          </header>
+          <p>
+            Paste lyrics you have permission to use. Headings like{" "}
+            <code>[Chorus]</code> are respected; repeated blocks are detected as
+            choruses.
+          </p>
+          <textarea
+            className="lyrics-input"
+            value={draftLyrics}
+            onChange={(e) => setDraftLyrics(e.target.value)}
+            placeholder={"[Verse 1]\nFirst line…\n\n[Chorus]\nRepeated hook…"}
+          />
+          <div className="button-row">
+            <button
+              className="primary"
+              onClick={analyze}
+              disabled={!draftLyrics.trim()}
+            >
+              Analyze & name sections
+            </button>
+            <small>
+              {draftLyrics.trim()
+                ? `${draftLyrics.trim().split(/\s+/).length} words`
+                : "Nothing leaves this Mac"}
+            </small>
+          </div>
+        </article>
+        <article className="panel analysis-card">
+          <header>
+            <div>
+              <span className="step">04</span>
+              <h2>Review the structure</h2>
+            </div>
+            <small>
+              {suggestions.length
+                ? `${suggestions.length} sections found`
+                : "Waiting for lyrics"}
+            </small>
+          </header>
+          {suggestions.length ? (
+            <>
+              <div className="suggestions">
+                {suggestions.map((section) => (
+                  <div key={section.id}>
+                    <i style={{ background: section.color }} />
+                    <input
+                      value={section.name}
+                      onChange={(e) =>
+                        setSuggestions(
+                          suggestions.map((s) =>
+                            s.id === section.id
+                              ? { ...s, name: e.target.value }
+                              : s,
+                          ),
+                        )
+                      }
+                    />
+                    <span>{section.lengthBars} bars</span>
+                  </div>
+                ))}
+              </div>
+              <div className="button-row">
+                <button
+                  className="primary"
+                  onClick={() => {
+                    replaceSections(suggestions);
+                    setPage("editor");
+                  }}
+                >
+                  Apply to timeline
+                </button>
+                <button onClick={() => setSuggestions([])}>Clear</button>
+              </div>
+            </>
+          ) : (
+            <div className="empty-state">
+              <b>Your proposed set map appears here.</b>
+              <span>You can rename every section before anything changes.</span>
+            </div>
+          )}
+        </article>
+      </div>
+    </section>
+  );
 }
 
 function Transport() {
@@ -477,13 +682,21 @@ function Editor() {
               </div>
               <label>
                 Color
-                <input type="color" value={selected.color ?? "#2563eb"} onChange={(e) => updateSection(selected.id, {color:e.target.value})} />
+                <input
+                  type="color"
+                  value={selected.color ?? "#2563eb"}
+                  onChange={(e) =>
+                    updateSection(selected.id, { color: e.target.value })
+                  }
+                />
               </label>
               <label>
                 Notes
                 <textarea
                   value={selected.notes ?? ""}
-                  onChange={(e) => updateSection(selected.id, {notes:e.target.value})}
+                  onChange={(e) =>
+                    updateSection(selected.id, { notes: e.target.value })
+                  }
                   placeholder="Performance notes"
                 />
               </label>

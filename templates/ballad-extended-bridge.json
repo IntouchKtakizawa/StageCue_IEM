@@ -3,7 +3,11 @@
   "id": "ballad-extended-bridge",
   "name": "Ballad with Extended Bridge",
   "defaultTempo": 72.0,
-  "meter": { "position": { "bar": 1, "beat": 1, "tick": 0 }, "numerator": 4, "denominator": 4 },
+  "meter": {
+    "position": { "bar": 1, "beat": 1, "tick": 0 },
+    "numerator": 4,
+    "denominator": 4
+  },
   "countInBars": 2,
   "sections": [
     { "name": "Intro", "lengthBars": 8, "color": "#64748b", "major": false },
@@ -11,15 +15,73 @@
     { "name": "Chorus 1", "lengthBars": 8, "color": "#f43f5e", "major": true },
     { "name": "Verse 2", "lengthBars": 8, "color": "#0ea5e9", "major": true },
     { "name": "Bridge", "lengthBars": 16, "color": "#a855f7", "major": true },
-    { "name": "Final Chorus", "lengthBars": 8, "color": "#e11d48", "major": true },
-    { "name": "Ritardando Outro", "lengthBars": 4, "color": "#334155", "major": true }
+    {
+      "name": "Final Chorus",
+      "lengthBars": 8,
+      "color": "#e11d48",
+      "major": true
+    },
+    {
+      "name": "Ritardando Outro",
+      "lengthBars": 4,
+      "color": "#334155",
+      "major": true
+    }
   ],
   "cueLeadBars": 2,
-  "click": { "enabled": true, "gainDb": -7.0, "subdivision": "quarter", "accentedAssetId": null, "unaccentedAssetId": null, "patterns": [{ "numerator": 4, "denominator": 4, "steps": [{ "beat": 1.0, "accent": true }, { "beat": 2.0, "accent": false }, { "beat": 3.0, "accent": false }, { "beat": 4.0, "accent": false }] }], "enabledSectionIds": [], "muteInFreeTime": true },
+  "click": {
+    "enabled": true,
+    "gainDb": -7.0,
+    "subdivision": "quarter",
+    "accentedAssetId": null,
+    "unaccentedAssetId": null,
+    "patterns": [
+      {
+        "numerator": 4,
+        "denominator": 4,
+        "steps": [
+          { "beat": 1.0, "accent": true },
+          { "beat": 2.0, "accent": false },
+          { "beat": 3.0, "accent": false },
+          { "beat": 4.0, "accent": false }
+        ]
+      }
+    ],
+    "enabledSectionIds": [],
+    "muteInFreeTime": true
+  },
   "routingSuggestions": [
-    { "id": "backing-bus", "name": "Backing", "channelCount": 2, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [1, 2] },
-    { "id": "click-bus", "name": "Click", "channelCount": 1, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [3] },
-    { "id": "cue-bus", "name": "Cues", "channelCount": 1, "gainDb": 0.0, "muted": false, "soloed": false, "hardwareChannels": [4] }
+    {
+      "id": "backing-bus",
+      "name": "Backing",
+      "channelCount": 2,
+      "gainDb": 0.0,
+      "muted": false,
+      "soloed": false,
+      "hardwareChannels": [1, 2]
+    },
+    {
+      "id": "click-bus",
+      "name": "Click",
+      "channelCount": 1,
+      "gainDb": 0.0,
+      "muted": false,
+      "soloed": false,
+      "hardwareChannels": [3]
+    },
+    {
+      "id": "cue-bus",
+      "name": "Cues",
+      "channelCount": 1,
+      "gainDb": 0.0,
+      "muted": false,
+      "soloed": false,
+      "hardwareChannels": [4]
+    }
   ],
-  "preflightRequirements": ["backing-present", "cue-audio-rendered", "routing-confirmed"]
+  "preflightRequirements": [
+    "backing-present",
+    "cue-audio-rendered",
+    "routing-confirmed"
+  ]
 }
